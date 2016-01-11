@@ -141,7 +141,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         
         let actionGallery = UIAlertAction(title: "Gallery", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
             
-            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
                 
                 self.imagePickerController.sourceType = .PhotoLibrary
                 self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
