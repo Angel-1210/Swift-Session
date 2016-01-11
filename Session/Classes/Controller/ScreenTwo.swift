@@ -2,7 +2,7 @@
 //  ScreenTwo.swift
 //  Session
 //
-//  Created by Dharmesh  on 10/01/16.
+//  Created by Dharmesh  on 08/01/16.
 //  Copyright © 2016 Dharmesh. All rights reserved.
 //
 
@@ -10,11 +10,27 @@ import Foundation
 import UIKit
 import QuartzCore
 
-class ScreenTwo : UIViewController, UITextFieldDelegate {
+protocol ScreenTwoDelegate {
+    
+    func screenTwoValues( values : NSDictionary )
+}
+
+class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var userType : UserMode!
+    
+    var delegateScreenTwo : ScreenOne?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imgProfile: UIImageView!
+    @IBOutlet weak var imgCoverImage: UIImageView!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var toolbarResponderController: UIToolbar!
+    
+    @IBOutlet weak var txtFirstName: UITextField!
+    
+    var imagePickerController :UIImagePickerController!
     
     //MARK: Memory Management Method
     
@@ -44,13 +60,28 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
             for subview in subViews{
                 subview.userInteractionEnabled = false;
             }
-
         }
+    }
+    
+    //------------------------------------------------------
+    
+    func saveItemTapped( sender : UIBarButtonItem) {
+        
+        //check validation and check
+        let strFirstName = self.txtFirstName.text
+        
+        if !isEmptyString(strFirstName!) {
+            self.delegateScreenTwo?.screenTwoValues( [ kFirstName : strFirstName!] );
+        }
+        
+        self.navigationController!.popViewControllerAnimated(true);
     }
     
     //-----------------------------------------------------
     
-    func prevItemTapped(snder : UIBarButtonItem) {
+    //MARK: UIAction Method
+    
+    @IBAction func prevItemTapped(snder : UIBarButtonItem) {
         
         let currentResponder = self.view.currentFirstResponder() as! UITextField
         let nextResponder = self.view.viewWithTag(currentResponder.tag-1) as? UITextField;
@@ -66,7 +97,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
     
     //-----------------------------------------------------
     
-    func nextItemTapped(snder : UIBarButtonItem) {
+    @IBAction func nextItemTapped(snder : UIBarButtonItem) {
         
         let currentResponder = self.view.currentFirstResponder() as! UITextField
         let nextResponder = self.view.viewWithTag(currentResponder.tag+1) as? UITextField;
@@ -82,18 +113,79 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
     
     //-----------------------------------------------------
     
-    func doneItemTapped(snder : UIBarButtonItem) {
+    @IBAction func doneItemTapped(snder : UIBarButtonItem) {
         self.scrollView .endEditing(true);
     }
     
+    //------------------------------------------------------
+    
+    @IBAction func editProfileTapped(sender: AnyObject) {
+        
+        self.imagePickerController = UIImagePickerController()
+        self.imagePickerController.delegate = self;
+        
+        let alertController = UIAlertController(title: "Albums", message: "Pick or Capture Image", preferredStyle: .ActionSheet)
+        
+        let actionCamera = UIAlertAction(title: "Camera", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                
+                self.imagePickerController.sourceType = .Camera
+                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
+                }
+                
+            } else {
+                print("Please attached Camera")
+            }
+        }
+        
+        let actionGallery = UIAlertAction(title: "Gallery", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                
+                self.imagePickerController.sourceType = .PhotoLibrary
+                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
+                }
+            } else {
+                print("Having problem to load Gallery")
+            }
+        }
+        
+        let actionCancel = UIAlertAction(title: "Cancel", style: .Destructive) { ( actionCamera : UIAlertAction) -> Void in
+            
+        }
+        
+        alertController .addAction(actionCamera)
+        alertController .addAction(actionGallery)
+        alertController.addAction(actionCancel)
+        
+        self .presentViewController(alertController, animated: true) { () -> Void in
+        }
+    }
+   
+    //MARK: UIImagePickerControllerDelegate
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        print(info);
+        
+        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        self.imgCoverImage.image = originalImage
+        self .dismissViewControllerAnimated(true) { () -> Void in
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        
+    }
+    
+
     //------------------------------------------------------
     
     //MARK: UITextField Delegate
    
     func textFieldDidBeginEditing(textField: UITextField) {
     
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 44))
-        
+        /*let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 44))
         
         let prevItem = UIBarButtonItem(title: "Prev", style: .Plain, target: self, action: "prevItemTapped:")
     
@@ -103,9 +195,9 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
  
         let doneItem = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: "doneItemTapped:")
  
-        toolBar.setItems( [prevItem, nextItem, flexibleItem, doneItem] as [UIBarButtonItem], animated: false);
+        toolBar.setItems( [prevItem, nextItem, flexibleItem, doneItem] as [UIBarButtonItem], animated: false);*/
         
-        textField.inputAccessoryView = toolBar;
+        textField.inputAccessoryView = self.toolbarResponderController;
     }
     
     //-----------------------------------------------------
@@ -138,7 +230,6 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
     //------------------------------------------------------
     
     //MARK: UIVIew Life Cycle
-   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +246,9 @@ class ScreenTwo : UIViewController, UITextFieldDelegate {
         
         let rightNavigationItem = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "rightItemTapped:")
         
-        self.navigationItem.rightBarButtonItem = rightNavigationItem;
+        let saveNavigationItem = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItemTapped:")
+        
+        self.navigationItem.rightBarButtonItems = [rightNavigationItem, saveNavigationItem] as [UIBarButtonItem];
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name: UIKeyboardWillShowNotification, object: nil)
         

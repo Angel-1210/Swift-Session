@@ -22,13 +22,35 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zQB-cL-yQU">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wjO-uC-6Jk">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScreenOneCell" id="G7f-RU-NpX">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G7f-RU-NpX" id="KhV-Lh-5I9">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="4Ih-K0-neb"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="thw-N6-9wO"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="wjO-uC-6Jk" secondAttribute="trailing" id="Dad-Vx-qGS"/>
                             <constraint firstAttribute="trailing" secondItem="zQB-cL-yQU" secondAttribute="trailing" id="FLk-gr-K0N"/>
                             <constraint firstItem="zQB-cL-yQU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Q4L-qF-dAK"/>
                             <constraint firstItem="zQB-cL-yQU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Ylk-cM-VDx"/>
+                            <constraint firstItem="wjO-uC-6Jk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cjv-uU-ga9"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zQB-cL-yQU" secondAttribute="bottom" id="cp9-RY-Qrg"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wjO-uC-6Jk" secondAttribute="bottom" id="hsG-F1-HPC"/>
+                            <constraint firstItem="wjO-uC-6Jk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tI8-Z3-ppx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YO9-s3-Ohl">
@@ -39,6 +61,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="tblList" destination="wjO-uC-6Jk" id="HId-KS-qUx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -75,6 +100,9 @@
                                             <constraint firstAttribute="height" constant="30" id="kH4-ee-zvW"/>
                                         </constraints>
                                         <state key="normal" title="Button" image="IconProfileEdit"/>
+                                        <connections>
+                                            <action selector="editProfileTapped:" destination="1Av-Pl-PBV" eventType="touchUpInside" id="ekE-JD-vrb"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kgS-Mh-jyG">
                                         <rect key="frame" x="0.0" y="273" width="320" height="50"/>
@@ -432,7 +460,7 @@ Address 2</string>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" clipsSubviews="YES" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 12-10-2015" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vQs-2N-Hmo">
+                                            <textField opaque="NO" clipsSubviews="YES" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 3 year" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vQs-2N-Hmo">
                                                 <rect key="frame" x="140" y="41" width="172" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -560,11 +588,36 @@ Address 2</string>
                     <size key="freeformSize" width="320" height="1000"/>
                     <connections>
                         <outlet property="bottomConstraint" destination="KHL-Bh-Rht" id="XfH-89-FMN"/>
+                        <outlet property="imgCoverImage" destination="z3o-yI-Z2C" id="13r-NT-KBR"/>
                         <outlet property="imgProfile" destination="gMU-Z7-tWL" id="qQB-pq-ChH"/>
                         <outlet property="scrollView" destination="AYN-6n-aBE" id="Ofx-9D-xf9"/>
+                        <outlet property="toolbarResponderController" destination="XNC-7c-hfg" id="mHq-RL-zZD"/>
+                        <outlet property="txtFirstName" destination="oAh-fa-rAB" id="tKe-qM-Dun"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAy-bG-CVm" sceneMemberID="firstResponder"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="XNC-7c-hfg">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Prev" id="zt1-iO-a1Z">
+                            <connections>
+                                <action selector="prevItemTapped:" destination="1Av-Pl-PBV" id="FF6-iq-ZKC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Next" id="X4e-gB-vZo">
+                            <connections>
+                                <action selector="nextItemTapped:" destination="1Av-Pl-PBV" id="joq-tg-HTC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="dbr-y1-dUs"/>
+                        <barButtonItem title="Done" id="9Wf-C2-Cej">
+                            <connections>
+                                <action selector="doneItemTapped:" destination="1Av-Pl-PBV" id="WMZ-Gq-gpD"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
             </objects>
             <point key="canvasLocation" x="731" y="339"/>
         </scene>
