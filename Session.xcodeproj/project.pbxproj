@@ -17,6 +17,8 @@
 		1F412EE71C42584100BD2EF7 /* ScreenTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F412EE61C42584100BD2EF7 /* ScreenTwo.swift */; };
 		1F412EE91C42666A00BD2EF7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F412EE81C42666A00BD2EF7 /* QuartzCore.framework */; };
 		1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A5F1A1C441252009B5D3C /* Validation.swift */; };
+		1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99965F1C457C78001DB894 /* SQLiteManager.m */; };
+		1F9996631C458467001DB894 /* swift.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1F9996621C458467001DB894 /* swift.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,10 @@
 		1F412EE61C42584100BD2EF7 /* ScreenTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTwo.swift; sourceTree = "<group>"; };
 		1F412EE81C42666A00BD2EF7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1F8A5F1A1C441252009B5D3C /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		1F99965D1C457C77001DB894 /* Session-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Session-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F99965E1C457C78001DB894 /* SQLiteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteManager.h; sourceTree = "<group>"; };
+		1F99965F1C457C78001DB894 /* SQLiteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteManager.m; sourceTree = "<group>"; };
+		1F9996621C458467001DB894 /* swift.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = swift.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,8 @@
 		1F412ED91C42554B00BD2EF7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1F9996611C458467001DB894 /* Resources */,
+				1F9996581C457C5A001DB894 /* Objective-C */,
 				1F412EDA1C42554B00BD2EF7 /* Base */,
 				1F412EDC1C42554B00BD2EF7 /* Controller */,
 			);
@@ -103,6 +111,33 @@
 			);
 			path = Controller;
 			sourceTree = "<group>";
+		};
+		1F9996581C457C5A001DB894 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+				1F9996591C457C5A001DB894 /* SQLiteManager */,
+			);
+			path = "Objective-C";
+			sourceTree = "<group>";
+		};
+		1F9996591C457C5A001DB894 /* SQLiteManager */ = {
+			isa = PBXGroup;
+			children = (
+				1F99965E1C457C78001DB894 /* SQLiteManager.h */,
+				1F99965F1C457C78001DB894 /* SQLiteManager.m */,
+				1F99965D1C457C77001DB894 /* Session-Bridging-Header.h */,
+			);
+			path = SQLiteManager;
+			sourceTree = "<group>";
+		};
+		1F9996611C458467001DB894 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F9996621C458467001DB894 /* swift.sqlite */,
+			);
+			name = Resources;
+			path = Session/Resources;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -163,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F412ED21C4254C400BD2EF7 /* LaunchScreen.storyboard in Resources */,
+				1F9996631C458467001DB894 /* swift.sqlite in Resources */,
 				1F412ECF1C4254C400BD2EF7 /* Assets.xcassets in Resources */,
 				1F412ECD1C4254C400BD2EF7 /* Main.storyboard in Resources */,
 			);
@@ -180,6 +216,7 @@
 				1F2FC0DE1C42E97600385485 /* UIView+FirstResponder.swift in Sources */,
 				1F412EE11C42557800BD2EF7 /* AppConstant.swift in Sources */,
 				1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */,
+				1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */,
 				1F412EDE1C42554B00BD2EF7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,11 +328,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Session/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Social.Session;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Session/Classes/Objective-C/SQLiteManager/Session-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -303,11 +343,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Session/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Social.Session;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Session/Classes/Objective-C/SQLiteManager/Session-Bridging-Header.h";
 			};
 			name = Release;
 		};
