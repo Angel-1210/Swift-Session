@@ -15,20 +15,29 @@ protocol ScreenTwoDelegate {
     func screenTwoValues( values : NSDictionary )
 }
 
-class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+var constantkeyTextField = "constantkeyTextField"
+
+class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     var userType : UserMode!
-    
     var delegateScreenTwo : ScreenOne?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imgProfile: UIImageView!
     @IBOutlet weak var imgCoverImage: UIImageView!
+    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     @IBOutlet var toolbarResponderController: UIToolbar!
+    @IBOutlet var datePicker: UIDatePicker!
     
     @IBOutlet weak var txtFirstName: UITextField!
+    @IBOutlet weak var txtShortName: UITextField!
+    @IBOutlet weak var txtLastName: UITextField!
+    @IBOutlet weak var txtBornOn: UITextField!
+    @IBOutlet weak var txtJoinAt: UITextField!
+    @IBOutlet weak var txtReleventExp: UITextField!    
+    @IBOutlet weak var imgCompnayLocation: UIImageView!
     
     var imagePickerController :UIImagePickerController!
     
@@ -67,14 +76,37 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     func saveItemTapped( sender : UIBarButtonItem) {
         
-        //check validation and check
+        //check validation
         let strFirstName = self.txtFirstName.text
+        
+        if !Validation .isValidName(strFirstName!) {
+         
+            self .DisplayAlertWithTitle("First Name", message: "Please enter valid First Name")
+        }
+        
+        if !Validation .isValidShortName(strFirstName!) {
+            
+            self .DisplayAlertWithTitle("Short Name", message: "Please enter valid Short Name")
+        }
         
         if !isEmptyString(strFirstName!) {
             self.delegateScreenTwo?.screenTwoValues( [ kFirstName : strFirstName!] );
         }
         
         self.navigationController!.popViewControllerAnimated(true);
+    }
+    
+    //------------------------------------------------------
+    
+    func DisplayAlertWithTitle( title : String, message : String) {
+    
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        let alertActionOk = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        
+        alertController .addAction(alertActionOk)
+        
+        self .presentViewController(alertController, animated: true, completion: nil)
     }
     
     //-----------------------------------------------------
@@ -100,6 +132,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBAction func nextItemTapped(snder : UIBarButtonItem) {
         
         let currentResponder = self.view.currentFirstResponder() as! UITextField
+        
         let nextResponder = self.view.viewWithTag(currentResponder.tag+1) as? UITextField;
         
         guard (nextResponder != nil) else {
@@ -114,6 +147,30 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     //-----------------------------------------------------
     
     @IBAction func doneItemTapped(snder : UIBarButtonItem) {
+        
+        let selectedTextField = objc_getAssociatedObject(self.datePicker, &constantkeyTextField) as! UITextField
+        
+        let dateFormatter = NSDateFormatter();
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        selectedTextField.text =  ("\(dateFormatter.stringFromDate(self.datePicker.date))")
+        
+        if selectedTextField == self.txtJoinAt {
+
+            let calendar: NSCalendar = NSCalendar.currentCalendar()
+            
+            let joiningDate = calendar.startOfDayForDate(self.datePicker.date)
+            let currentDate = calendar.startOfDayForDate(NSDate())
+            
+            let flags = NSCalendarUnit.Year
+            
+            let components = calendar.components(flags, fromDate: joiningDate, toDate: currentDate, options: .WrapComponents)
+
+            self.txtReleventExp.text = ("\(components.year)")
+            
+        } else {
+           
+        }
         self.scrollView .endEditing(true);
     }
     
@@ -163,6 +220,14 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         }
     }
    
+    //------------------------------------------------------
+    
+    @IBAction func locationIconTapped( sender : UITapGestureRecognizer) {
+       
+        let map = self.storyboard?.instantiateViewControllerWithIdentifier("MapVC") as! MapVC
+        self.navigationController?.pushViewController(map, animated: true)
+    }
+    
     //MARK: UIImagePickerControllerDelegate
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
@@ -175,7 +240,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 
@@ -198,6 +263,48 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         toolBar.setItems( [prevItem, nextItem, flexibleItem, doneItem] as [UIBarButtonItem], animated: false);*/
         
         textField.inputAccessoryView = self.toolbarResponderController;
+        
+        if textField == self.txtBornOn || textField == self.txtJoinAt || textField == self.txtReleventExp {
+            
+            self.datePicker.maximumDate = NSDate();
+            
+            textField.inputView = self.datePicker;
+            objc_setAssociatedObject(self.datePicker, &constantkeyTextField, textField, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+
+    //------------------------------------------------------
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        if string == "" {
+            return true
+        }
+        
+        
+        if textField == self.txtBornOn || textField == self.txtJoinAt {
+            return false
+        }
+        
+        let stringToValidate = textField.text?.stringByAppendingString(string);
+        print(stringToValidate)
+        
+        switch textField {
+            
+        case self.txtFirstName :
+            return Validation .isValidName(stringToValidate!)
+            
+        case self.txtShortName:
+            return Validation .isValidShortName(stringToValidate!)
+            
+        case self.txtLastName:
+            return Validation .isValidName(stringToValidate!)
+            
+        default :
+            break
+        }
+        
+        return true;
     }
     
     //-----------------------------------------------------
@@ -211,12 +318,12 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var contentInset:UIEdgeInsets = self.scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
+        contentInset.bottom = keyboardFrame.size.height;
         self.scrollView.contentInset = contentInset
         
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            //self.bottomConstraint.constant += keyboardFrame.size.height + 20
-        })
+        /*UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.bottomConstraint.constant += keyboardFrame.size.height + 20
+        })*/
     }
 
     //------------------------------------------------------

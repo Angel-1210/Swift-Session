@@ -22,6 +22,10 @@ let kBornOn         = "BornOn"
 let kJoiningAt      = "JoiningAt"
 let kReleventExp    = "ReleventExp"
 
+let kLocationName   = "LocationName"
+let kLattitude      = "Lattitude"
+let kLongitude      = "Longitude"
+
 enum UserMode {
     
     case UserModeAdd

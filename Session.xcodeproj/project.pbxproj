@@ -19,6 +19,10 @@
 		1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A5F1A1C441252009B5D3C /* Validation.swift */; };
 		1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99965F1C457C78001DB894 /* SQLiteManager.m */; };
 		1F9996631C458467001DB894 /* swift.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1F9996621C458467001DB894 /* swift.sqlite */; };
+		1FC1BD6C1C48FC10008CDA1D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC1BD6B1C48FC10008CDA1D /* MapVC.swift */; };
+		1FC1BD701C490C5F008CDA1D /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC1BD6F1C490C5F008CDA1D /* MapAnnotation.swift */; };
+		1FC1BD721C490C88008CDA1D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC1BD711C490C88008CDA1D /* LocationManager.swift */; };
+		1FE1A9891C48D961006BD00B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1A9881C48D961006BD00B /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,10 @@
 		1F99965E1C457C78001DB894 /* SQLiteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteManager.h; sourceTree = "<group>"; };
 		1F99965F1C457C78001DB894 /* SQLiteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteManager.m; sourceTree = "<group>"; };
 		1F9996621C458467001DB894 /* swift.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = swift.sqlite; sourceTree = "<group>"; };
+		1FC1BD6B1C48FC10008CDA1D /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		1FC1BD6F1C490C5F008CDA1D /* MapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
+		1FC1BD711C490C88008CDA1D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1FE1A9881C48D961006BD00B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FE1A9891C48D961006BD00B /* libsqlite3.tbd in Frameworks */,
 				1F412EE91C42666A00BD2EF7 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,6 +64,7 @@
 		1F412EBB1C4254C400BD2EF7 = {
 			isa = PBXGroup;
 			children = (
+				1FE1A9881C48D961006BD00B /* libsqlite3.tbd */,
 				1F412EE81C42666A00BD2EF7 /* QuartzCore.framework */,
 				1F412EC61C4254C400BD2EF7 /* Session */,
 				1F412EC51C4254C400BD2EF7 /* Products */,
@@ -95,6 +105,7 @@
 		1F412EDA1C42554B00BD2EF7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				1FC1BD711C490C88008CDA1D /* LocationManager.swift */,
 				1F412EDB1C42554B00BD2EF7 /* AppDelegate.swift */,
 				1F412EE01C42557800BD2EF7 /* AppConstant.swift */,
 				1F2FC0DD1C42E97600385485 /* UIView+FirstResponder.swift */,
@@ -108,6 +119,8 @@
 			children = (
 				1F412EE21C4256BB00BD2EF7 /* ScreenOne.swift */,
 				1F412EE61C42584100BD2EF7 /* ScreenTwo.swift */,
+				1FC1BD6B1C48FC10008CDA1D /* MapVC.swift */,
+				1FC1BD6F1C490C5F008CDA1D /* MapAnnotation.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -212,10 +225,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F412EE71C42584100BD2EF7 /* ScreenTwo.swift in Sources */,
+				1FC1BD701C490C5F008CDA1D /* MapAnnotation.swift in Sources */,
+				1FC1BD721C490C88008CDA1D /* LocationManager.swift in Sources */,
 				1F412EE31C4256BB00BD2EF7 /* ScreenOne.swift in Sources */,
 				1F2FC0DE1C42E97600385485 /* UIView+FirstResponder.swift in Sources */,
 				1F412EE11C42557800BD2EF7 /* AppConstant.swift in Sources */,
 				1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */,
+				1FC1BD6C1C48FC10008CDA1D /* MapVC.swift in Sources */,
 				1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */,
 				1F412EDE1C42554B00BD2EF7 /* AppDelegate.swift in Sources */,
 			);
