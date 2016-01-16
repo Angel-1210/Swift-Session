@@ -341,6 +341,9 @@
                                                     <constraint firstAttribute="width" constant="30" id="Rat-b4-ybF"/>
                                                     <constraint firstAttribute="height" constant="30" id="tcT-7L-2e5"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="HNf-5P-LR6" appends="YES" id="Erk-Bu-XbQ"/>
+                                                </connections>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="love to develop hightly performace iOS App." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="41r-sv-7pm">
                                                 <rect key="frame" x="8" y="124" width="304" height="49"/>
@@ -577,6 +580,11 @@
                         </barButtonItem>
                     </items>
                 </toolbar>
+                <tapGestureRecognizer id="HNf-5P-LR6">
+                    <connections>
+                        <action selector="locationIconTapped:" destination="Qzg-Ra-ORh" id="Msg-wA-JME"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="799" y="339"/>
         </scene>

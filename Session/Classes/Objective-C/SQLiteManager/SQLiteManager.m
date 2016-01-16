@@ -222,7 +222,7 @@ static SQLiteManager * sharedSQLiteManager = nil;
 			int index = 1;
 			for (NSString * value in values) {
 				if( [[NSScanner scannerWithString:(NSString *)value] scanFloat:NULL] ){
-					sqlite3_bind_int(compiledStatement, index, [(NSString*)value intValue]);
+                    sqlite3_bind_text(compiledStatement, index, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
 				}
                 else {
 					sqlite3_bind_text(compiledStatement, index, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);

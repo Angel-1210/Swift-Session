@@ -13,8 +13,8 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     @IBOutlet weak var tblList: UITableView!
     
-    var arrListUsers : NSMutableArray = [ [kFirstName : "Dharmesh", kShortName : "Dharma", kLastName : "Avaiya", kJoiningAt : NSDate(), kReleventExp : "3"],
-        [kFirstName : "Tejas", kShortName : "Tej", kLastName : "Joshi", kJoiningAt : NSDate(), kReleventExp : "1"]]
+    var arrListUsers : NSArray = [ /*[kFirstName : "Dharmesh", kShortName : "Dharma", kLastName : "Avaiya", kJoiningAt : NSDate(), kReleventExp : "3"],
+        [kFirstName : "Tejas", kShortName : "Tej", kLastName : "Joshi", kJoiningAt : NSDate(), kReleventExp : "1"]*/ ]
     
     //MARK: Memory Management Method
     
@@ -60,23 +60,34 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let destinationVC = self.storyboard!.instantiateViewControllerWithIdentifier("ScreenTwo") as! ScreenTwo
+        destinationVC.delegateScreenTwo = self;
+        destinationVC.userType = UserMode.UserModeEdit
+        
+        let currentItem = self.arrListUsers[indexPath.row] as! NSDictionary
+        destinationVC.dictValues = currentItem;
+            
+        self.navigationController!.pushViewController(destinationVC, animated: true)
     }
     
     //MAKR: ScreenTwoDelegate 
     
     func screenTwoValues( values : NSDictionary ) {
         
-        self.arrListUsers.addObject(values)
-        print(self.arrListUsers)
+        SQLiteManager .singleton().save( NSMutableDictionary.init(dictionary: values), into: kTableNameList)
+        let resultList = SQLiteManager .singleton().findAllFrom(kTableNameList) as NSArray
+        self.arrListUsers = resultList
+        /*self.arrListUsers.addObject(values)
+        print(self.arrListUsers)*/
         self.tblList .reloadData()
-        
     }
     
     //MARK: UIVIew Life Cycle
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if let destinationVC = segue.destinationViewController as? ScreenTwo{
+        if let destinationVC = segue.destinationViewController as? ScreenTwo {
             destinationVC.userType = UserMode.UserModeAdd
             destinationVC.delegateScreenTwo = self;
 
@@ -88,6 +99,9 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        let resultList = SQLiteManager.singleton().findAllFrom(kTableNameList) as NSArray
+        //self.arrListUsers .addObjectsFromArray(list as [AnyObject])
+        self.arrListUsers = resultList;
     }
 }
 

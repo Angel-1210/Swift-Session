@@ -21,6 +21,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     var userType : UserMode!
     var delegateScreenTwo : ScreenOne?
+    var dictValues : NSDictionary?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imgProfile: UIImageView!
@@ -79,19 +80,56 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         //check validation
         let strFirstName = self.txtFirstName.text
         
-        if !Validation .isValidName(strFirstName!) {
+        if isEmptyString(strFirstName!) {
          
-            self .DisplayAlertWithTitle("First Name", message: "Please enter valid First Name")
+            self .DisplayAlertWithTitle("First Name", message: "Please enter First Name")
+            return            
         }
         
-        if !Validation .isValidShortName(strFirstName!) {
+        let strShortName = self.txtShortName.text
+        
+        if isEmptyString(strShortName!) {
             
-            self .DisplayAlertWithTitle("Short Name", message: "Please enter valid Short Name")
+            self .DisplayAlertWithTitle("First Name", message: "Please enter Short Name")
+            return
         }
         
-        if !isEmptyString(strFirstName!) {
-            self.delegateScreenTwo?.screenTwoValues( [ kFirstName : strFirstName!] );
+        let strLastName = self.txtLastName.text
+        
+        if isEmptyString(strLastName!) {
+            
+            self .DisplayAlertWithTitle("First Name", message: "Please enter Last Name")
+            return
         }
+        
+        let strBornOn = self.txtBornOn.text
+        
+        if isEmptyString(strBornOn!) {
+            
+            self .DisplayAlertWithTitle("First Name", message: "Please enter Born On")
+            return
+        }
+        
+        let strJoinAt = self.txtJoinAt.text
+        
+        if isEmptyString(strJoinAt!) {
+            
+            self .DisplayAlertWithTitle("First Name", message: "Please enter Join At")
+            return
+        }
+        
+        let strReleventExp = self.txtReleventExp.text
+        
+        let dictValues = NSMutableDictionary.init(dictionary: self.dictValues!)
+        
+        dictValues.setObject(strFirstName!, forKey: kFirstName)
+        dictValues.setObject(strShortName!, forKey: kShortName)
+        dictValues.setObject(strLastName!, forKey: kLastName)
+        dictValues.setObject(strBornOn!, forKey: kBornOn)
+        dictValues.setObject(strJoinAt!, forKey: kJoiningAt)
+        dictValues.setObject(strReleventExp!, forKey: kReleventExp)
+        
+        self.delegateScreenTwo?.screenTwoValues(dictValues);
         
         self.navigationController!.popViewControllerAnimated(true);
     }
@@ -107,6 +145,18 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         alertController .addAction(alertActionOk)
         
         self .presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    //------------------------------------------------------
+    
+    func configureValues() {
+        
+        self.txtFirstName.text = self.dictValues?.objectForKey(kFirstName) as? String
+        self.txtShortName.text = self.dictValues?.objectForKey(kShortName) as? String
+        self.txtLastName.text = self.dictValues?.objectForKey(kLastName) as? String
+        self.txtBornOn.text = self.dictValues?.objectForKey(kBornOn) as? String
+        self.txtJoinAt.text = self.dictValues?.objectForKey(kJoiningAt) as? String
+        self.txtReleventExp.text = self.dictValues?.objectForKey(kReleventExp) as? String
     }
     
     //-----------------------------------------------------
@@ -150,27 +200,28 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         
         let selectedTextField = objc_getAssociatedObject(self.datePicker, &constantkeyTextField) as! UITextField
         
-        let dateFormatter = NSDateFormatter();
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        
-        selectedTextField.text =  ("\(dateFormatter.stringFromDate(self.datePicker.date))")
-        
-        if selectedTextField == self.txtJoinAt {
+        if selectedTextField == self.txtBornOn || selectedTextField == self.txtJoinAt {
 
-            let calendar: NSCalendar = NSCalendar.currentCalendar()
+            let dateFormatter = NSDateFormatter();
+            dateFormatter.dateFormat = "dd-MM-yyyy"
             
-            let joiningDate = calendar.startOfDayForDate(self.datePicker.date)
-            let currentDate = calendar.startOfDayForDate(NSDate())
+            selectedTextField.text =  ("\(dateFormatter.stringFromDate(self.datePicker.date))")
             
-            let flags = NSCalendarUnit.Year
-            
-            let components = calendar.components(flags, fromDate: joiningDate, toDate: currentDate, options: .WrapComponents)
-
-            self.txtReleventExp.text = ("\(components.year)")
-            
-        } else {
-           
+            if selectedTextField == self.txtJoinAt {
+                
+                let calendar: NSCalendar = NSCalendar.currentCalendar()
+                
+                let joiningDate = calendar.startOfDayForDate(self.datePicker.date)
+                let currentDate = calendar.startOfDayForDate(NSDate())
+                
+                let flags = NSCalendarUnit.Year
+                
+                let components = calendar.components(flags, fromDate: joiningDate, toDate: currentDate, options: .WrapComponents)
+                
+                self.txtReleventExp.text = ("\(components.year)")
+            }
         }
+        
         self.scrollView .endEditing(true);
     }
     
@@ -280,8 +331,9 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
             self.datePicker.maximumDate = NSDate();
             
             textField.inputView = self.datePicker;
-            objc_setAssociatedObject(self.datePicker, &constantkeyTextField, textField, .OBJC_ASSOCIATION_ASSIGN)
         }
+        
+        objc_setAssociatedObject(self.datePicker, &constantkeyTextField, textField, .OBJC_ASSOCIATION_ASSIGN)
     }
 
     //------------------------------------------------------
@@ -371,5 +423,9 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name: UIKeyboardWillShowNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
+        if userType == UserMode.UserModeEdit {
+            self.configureValues()
+        }
     }
 }

@@ -11,6 +11,8 @@
 
 #define kDatabaseName    @"swift.sqlite"
 
+#define kTableNameList   @"List"
+
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
