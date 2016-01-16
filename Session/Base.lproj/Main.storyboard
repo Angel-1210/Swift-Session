@@ -312,7 +312,7 @@
                                                     <constraint firstAttribute="width" constant="60" id="Gld-He-7Vq"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="HyperlinkInfoSystem" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-uH-UgF">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Company Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-uH-UgF">
                                                 <rect key="frame" x="76" y="0.0" width="236" height="30"/>
                                                 <color key="backgroundColor" red="0.96078437566757202" green="0.84313732385635376" blue="0.83137261867523193" alpha="1" colorSpace="deviceRGB"/>
                                                 <constraints>
