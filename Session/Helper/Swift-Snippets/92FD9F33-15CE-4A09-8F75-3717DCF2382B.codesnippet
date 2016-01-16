@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>sBaseMethod</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>TopLevel</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import UIKit
+import Foundation
+
+class &lt;#ClassName#&gt; : UIViewController {
+    
+    //MARK: Memory Management Method
+    
+    override func didReceiveMemoryWarning() {
+        
+    }
+    
+    //------------------------------------------------------
+    
+    deinit { //same like dealloc in ObjectiveC
+        
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: UIView Life Cycle Method
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    //------------------------------------------------------
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    //------------------------------------------------------
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>92FD9F33-15CE-4A09-8F75-3717DCF2382B</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>Swift - UIView Life Cycle Methods</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Swift - UIView Life Cycle Methods</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>0</integer>
+</dict>
+</plist>
