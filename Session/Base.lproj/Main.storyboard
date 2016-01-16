@@ -312,7 +312,7 @@
                                                     <constraint firstAttribute="width" constant="60" id="Gld-He-7Vq"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="HyperlinkInfoSystem" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-uH-UgF">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Company Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-uH-UgF">
                                                 <rect key="frame" x="76" y="0.0" width="236" height="30"/>
                                                 <color key="backgroundColor" red="0.96078437566757202" green="0.84313732385635376" blue="0.83137261867523193" alpha="1" colorSpace="deviceRGB"/>
                                                 <constraints>
@@ -330,11 +330,9 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mZh-u8-zWD">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" text="Address 1" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mZh-u8-zWD">
                                                 <rect key="frame" x="8" y="68" width="266" height="48"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.31" colorSpace="calibratedWhite"/>
-                                                <string key="text">C-105 - 107, Ganesh Meridian
-Opp-Gujarat Hight Court, SG Hight Way, Ahmedabad</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
