@@ -76,10 +76,11 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        let controller = segue.destinationViewController as! ScreenTwo
-        controller.userType = UserMode.UserModeAdd
-        controller.delegateScreenTwo = self;
-        
+        if let destinationVC = segue.destinationViewController as? ScreenTwo{
+            destinationVC.userType = UserMode.UserModeAdd
+            destinationVC.delegateScreenTwo = self;
+
+        }
     }
     
     //------------------------------------------------------

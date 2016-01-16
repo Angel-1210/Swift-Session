@@ -248,6 +248,17 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     //MARK: UITextField Delegate
    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    
+        if self.txtReleventExp == textField {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    //------------------------------------------------------
+    
     func textFieldDidBeginEditing(textField: UITextField) {
     
         /*let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 44))
@@ -264,7 +275,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         
         textField.inputAccessoryView = self.toolbarResponderController;
         
-        if textField == self.txtBornOn || textField == self.txtJoinAt || textField == self.txtReleventExp {
+        if textField == self.txtBornOn || textField == self.txtJoinAt {
             
             self.datePicker.maximumDate = NSDate();
             
@@ -341,21 +352,21 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let subViews = self.scrollView.subviews
+        /*let subViews = self.scrollView.subviews
         for subview in subViews{
             subview.userInteractionEnabled = false;
-        }
+        }*/
         
         self.imgProfile.layer.borderWidth = 5;
         self.imgProfile.layer.borderColor = UIColor.whiteColor().CGColor;
         self.imgProfile.layer.cornerRadius = 25.0;
         self.imgProfile.clipsToBounds = true;
         
-        let rightNavigationItem = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "rightItemTapped:")
+        /*let rightNavigationItem = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "rightItemTapped:")*/
         
         let saveNavigationItem = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItemTapped:")
         
-        self.navigationItem.rightBarButtonItems = [rightNavigationItem, saveNavigationItem] as [UIBarButtonItem];
+        self.navigationItem.rightBarButtonItems = [saveNavigationItem] as [UIBarButtonItem];
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name: UIKeyboardWillShowNotification, object: nil)
         
