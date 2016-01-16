@@ -2,7 +2,7 @@
 //  MapVC.swift
 //  Session
 //
-//  Created by Pankti  on 15/01/16.
+//  Created by Dharmesh  on 15/01/16.
 //  Copyright © 2016 Dharmesh. All rights reserved.
 //
 
@@ -131,6 +131,8 @@ class MapVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableVi
             self.mapLocationView .showsTraffic = true
         }
         self.mapLocationView.delegate = self
+        
+        LocationManager .singleton().stopUpdatingLocations();
         
         //LocationManager.singleton().stopUpdatingLocations()
         /*let ahmedabadAnnotation = MapAnnotation(coordinate: CLLocationCoordinate2DMake(23.0300, 72.5800), title: "Ahmedabad", subtitle: "CG Road")

@@ -2,7 +2,7 @@
 //  LocationManager.swift
 //  Session
 //
-//  Created by Pankti  on 15/01/16.
+//  Created by Dharmesh  on 15/01/16.
 //  Copyright © 2016 Dharmesh. All rights reserved.
 //
 

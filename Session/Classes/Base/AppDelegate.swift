@@ -13,10 +13,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    //------------------------------------------------------
+    
+    //MARK: Custom Method
+    
+    func setupControllers() {
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        let tabbarController = storyBoard .instantiateViewControllerWithIdentifier("AppTabbarController") as! UITabBarController
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Selected)
+        
+        window?.rootViewController = tabbarController;
+    }
+    
+    //------------------------------------------------------
+    
+    func setupLoginController() {
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        let loginVC = storyBoard .instantiateViewControllerWithIdentifier("LoginVC") as! LoginVC
+        window?.rootViewController = loginVC;
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: Completion Handler Demo
+    
+    func callBackMethodName( parameter : String, withBlock:( result : String)->Void) {
+        
+        print("Inside Block")
+        
+        withBlock(result: "Pass Result")
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: Application Life Cycle
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         SQLiteManager .singleton() .checkAndCreateDatabaseWithOverwrite(false)
+        
+        if false { //logged-In
+
+            
+        } else {//Sign Up
+            
+            self .setupLoginController()
+        }
         
         return true
     }
@@ -41,6 +89,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: Singleton
+    
+    static func singleton() -> AppDelegate {
+        return UIApplication.sharedApplication().delegate as! AppDelegate
     }
 }
 

@@ -11,16 +11,17 @@ import UIKit
 import QuartzCore
 
 protocol ScreenTwoDelegate {
-    
+
     func screenTwoValues( values : NSDictionary )
 }
 
 var constantkeyTextField = "constantkeyTextField"
 
-class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, ToolbarNextPreviousDelegate {
     
     var userType : UserMode!
-    var delegateScreenTwo : ScreenOne?
+    var delegateScreenTwo : ScreenTwoDelegate?
+    
     var dictValues : NSDictionary?
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -29,7 +30,8 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
-    @IBOutlet var toolbarResponderController: UIToolbar!
+    var toolBarNextPreviousItems: UIToolbar!
+    
     @IBOutlet var datePicker: UIDatePicker!
     
     @IBOutlet weak var txtFirstName: UITextField!
@@ -119,17 +121,21 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         }
         
         let strReleventExp = self.txtReleventExp.text
+
+        var dictValuesToAdd = NSMutableDictionary()
         
-        let dictValues = NSMutableDictionary.init(dictionary: self.dictValues!)
+        if (self.dictValues != nil) {
+            dictValuesToAdd = NSMutableDictionary.init(dictionary: self.dictValues!)
+        }
         
-        dictValues.setObject(strFirstName!, forKey: kFirstName)
-        dictValues.setObject(strShortName!, forKey: kShortName)
-        dictValues.setObject(strLastName!, forKey: kLastName)
-        dictValues.setObject(strBornOn!, forKey: kBornOn)
-        dictValues.setObject(strJoinAt!, forKey: kJoiningAt)
-        dictValues.setObject(strReleventExp!, forKey: kReleventExp)
+        dictValuesToAdd.setObject(strFirstName!, forKey: kFirstName)
+        dictValuesToAdd.setObject(strShortName!, forKey: kShortName)
+        dictValuesToAdd.setObject(strLastName!, forKey: kLastName)
+        dictValuesToAdd.setObject(strBornOn!, forKey: kBornOn)
+        dictValuesToAdd.setObject(strJoinAt!, forKey: kJoiningAt)
+        dictValuesToAdd.setObject(strReleventExp!, forKey: kReleventExp)
         
-        self.delegateScreenTwo?.screenTwoValues(dictValues);
+        self.delegateScreenTwo?.screenTwoValues(dictValuesToAdd);
         
         self.navigationController!.popViewControllerAnimated(true);
     }
@@ -161,9 +167,9 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     //-----------------------------------------------------
     
-    //MARK: UIAction Method
+    //MARK: ToolbarNextPreviousDelegate
     
-    @IBAction func prevItemTapped(snder : UIBarButtonItem) {
+    func prevItemTapped(snder : UIBarButtonItem) {
         
         let currentResponder = self.view.currentFirstResponder() as! UITextField
         let nextResponder = self.view.viewWithTag(currentResponder.tag-1) as? UITextField;
@@ -179,7 +185,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     //-----------------------------------------------------
     
-    @IBAction func nextItemTapped(snder : UIBarButtonItem) {
+    func nextItemTapped(snder : UIBarButtonItem) {
         
         let currentResponder = self.view.currentFirstResponder() as! UITextField
         
@@ -196,7 +202,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     //-----------------------------------------------------
     
-    @IBAction func doneItemTapped(snder : UIBarButtonItem) {
+    func doneItemTapped(snder : UIBarButtonItem) {
         
         let selectedTextField = objc_getAssociatedObject(self.datePicker, &constantkeyTextField) as! UITextField
         
@@ -324,7 +330,7 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
  
         toolBar.setItems( [prevItem, nextItem, flexibleItem, doneItem] as [UIBarButtonItem], animated: false);*/
         
-        textField.inputAccessoryView = self.toolbarResponderController;
+        textField.inputAccessoryView = self.toolBarNextPreviousItems;
         
         if textField == self.txtBornOn || textField == self.txtJoinAt {
             
@@ -403,6 +409,10 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ToolbarNextPreviousVC") as! ToolbarNextPreviousVC
+        controller.delegate = self
+        self.toolBarNextPreviousItems = controller.toolbarNextPrevious;
         
         /*let subViews = self.scrollView.subviews
         for subview in subViews{
