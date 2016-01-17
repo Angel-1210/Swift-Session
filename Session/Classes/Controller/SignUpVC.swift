@@ -1,15 +1,15 @@
 //
-//  LoginVC.swift
+//  SignUpVC.swift
 //  Session
 //
-//  Created by Dharmesh  on 16/01/16.
+//  Created by Dharmesh  on 17/01/16.
 //  Copyright © 2016 Dharmesh. All rights reserved.
 //
 
 import UIKit
 import Foundation
 
-class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
+class SignUpVC : BaseVC, ToolbarNextPreviousDelegate {
     
     var toolBarNextPreviousItems : UIToolbar!
     
@@ -17,7 +17,7 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
     @IBOutlet weak var txtUsername: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
     
-    //MARK: Memory Management Method
+    //MARK: Memory Management Method    
     
     override func didReceiveMemoryWarning() {
         
@@ -28,12 +28,12 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
     deinit { //same like dealloc in ObjectiveC
         
     }
-    
+
     //------------------------------------------------------
-    
+
     //MARK: Action Method
     
-    @IBAction func btnLoginTapped(sender: AnyObject) {
+    @IBAction func btnSignUpTapped(sender: UIButton) {
         
         let username = self.txtUsername.text! as String
         let password = self.txtPassword.text! as String
@@ -43,7 +43,7 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
             self .DisplayAlertWithTitle("Username", message: "Please enter Username")
             return
         }
-        
+
         if isEmptyString(password) {
             
             self .DisplayAlertWithTitle("Password", message: "Please enter Password")
@@ -53,20 +53,17 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
         let result = SQLiteManager.singleton().find(kUserName, from: kTableUser, `where`: "\(kUserName) LIKE '\(username)'") as NSArray
         
         if result.count > 0 {
-         
-            AppDelegate .singleton().setupControllers()
-            
-        } else {
-            
-            self .DisplayAlertWithTitle("User", message: "User does not exist")
+            self .DisplayAlertWithTitle("User", message: "User is already exist")
             return
-            
         }
-    }
-
-    //------------------------------------------------------
-    
-    @IBAction func btnSignUpTapped(sender: AnyObject) {
+        
+        let dictValues = NSMutableDictionary()
+        
+        dictValues.setObject( username, forKey: kUserName)
+        dictValues.setObject( password, forKey: kPassword)
+        
+        SQLiteManager .singleton().save(dictValues, into: kTableUser)
+        AppDelegate .singleton().setupControllers()
     }
     
     //------------------------------------------------------
@@ -102,7 +99,7 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
         }
         
         nextResponder?.becomeFirstResponder()
-
+        
     }
     
     //------------------------------------------------------
@@ -151,7 +148,7 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
         let contentInset:UIEdgeInsets = UIEdgeInsetsZero
         self.scrollView.contentInset = contentInset
     }
-    
+
     //------------------------------------------------------
     
     //MARK: UIView Life Cycle Method
@@ -169,7 +166,7 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
         
         self.txtUsername.leftView = UIView(frame: CGRectMake(0, 0, 5, 0))
         self.txtUsername.leftViewMode = UITextFieldViewMode.Always
-
+        
         self.txtPassword.leftView = UIView(frame: CGRectMake(0, 0, 5, 0))
         self.txtPassword.leftViewMode = UITextFieldViewMode.Always
     }
@@ -178,10 +175,6 @@ class LoginVC : BaseVC, ToolbarNextPreviousDelegate, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        AppDelegate.singleton().callBackMethodName("Request Parameter") { (result) -> Void in
-            print("result \(result)")
-        }
     }
     
     //------------------------------------------------------

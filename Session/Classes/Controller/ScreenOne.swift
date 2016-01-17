@@ -43,12 +43,13 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ScreenOneCell")!
+        let cell = tableView.dequeueReusableCellWithIdentifier("ScreenOneCell") as! ScreenOneCell
         
         let currentItem = self.arrListUsers[indexPath.row] as! NSDictionary
         
-        cell.textLabel?.text = currentItem.objectForKey(kFirstName) as? String
-        
+        cell.lblTitle?.text = currentItem.objectForKey(kFirstName) as? String
+        cell.lblSubTitle?.text = currentItem.objectForKey(kLastName) as? String
+        cell.imgProfile?.image = currentItem.objectForKey(kProfileImage) as? UIImage
         return cell;
         
     }

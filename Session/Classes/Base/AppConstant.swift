@@ -21,10 +21,15 @@ let kShortName      = "ShortName"
 let kBornOn         = "BornOn"
 let kJoiningAt      = "JoiningAt"
 let kReleventExp    = "ReleventExp"
+let kProfileImage   = "ProfileImage"
+let kCoverImage     = "CoverImage"
 
 let kLocationName   = "LocationName"
 let kLattitude      = "Lattitude"
 let kLongitude      = "Longitude"
+
+let kUserName       = "Username"
+let kPassword       = "Password"
 
 enum UserMode {
     

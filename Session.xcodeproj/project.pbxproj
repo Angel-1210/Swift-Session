@@ -24,6 +24,9 @@
 		1F412EE71C42584100BD2EF7 /* ScreenTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F412EE61C42584100BD2EF7 /* ScreenTwo.swift */; };
 		1F412EE91C42666A00BD2EF7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F412EE81C42666A00BD2EF7 /* QuartzCore.framework */; };
 		1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A5F1A1C441252009B5D3C /* Validation.swift */; };
+		1F94FCA31C4BA0C300571108 /* ScreenOneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94FCA21C4BA0C300571108 /* ScreenOneCell.swift */; };
+		1F94FCA51C4BACF500571108 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94FCA41C4BACF500571108 /* SignUpVC.swift */; };
+		1F94FCA71C4BAFEC00571108 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94FCA61C4BAFEC00571108 /* BaseVC.swift */; };
 		1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F99965F1C457C78001DB894 /* SQLiteManager.m */; };
 		1F9996631C458467001DB894 /* swift.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1F9996621C458467001DB894 /* swift.sqlite */; };
 		1FC1BD6C1C48FC10008CDA1D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC1BD6B1C48FC10008CDA1D /* MapVC.swift */; };
@@ -52,6 +55,9 @@
 		1F412EE61C42584100BD2EF7 /* ScreenTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTwo.swift; sourceTree = "<group>"; };
 		1F412EE81C42666A00BD2EF7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1F8A5F1A1C441252009B5D3C /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		1F94FCA21C4BA0C300571108 /* ScreenOneCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenOneCell.swift; sourceTree = "<group>"; };
+		1F94FCA41C4BACF500571108 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		1F94FCA61C4BAFEC00571108 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		1F99965D1C457C77001DB894 /* Session-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Session-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F99965E1C457C78001DB894 /* SQLiteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteManager.h; sourceTree = "<group>"; };
 		1F99965F1C457C78001DB894 /* SQLiteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteManager.m; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 				1F2FC0DD1C42E97600385485 /* UIView+FirstResponder.swift */,
 				1F8A5F1A1C441252009B5D3C /* Validation.swift */,
 				1F016FA11C4AA57900C297FB /* ToolbarNextPreviousVC.swift */,
+				1F94FCA61C4BAFEC00571108 /* BaseVC.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -166,6 +173,8 @@
 				1FC1BD6F1C490C5F008CDA1D /* MapAnnotation.swift */,
 				1F016F9D1C4A663800C297FB /* SettingsVC.swift */,
 				1F016F9F1C4A6A7C00C297FB /* LoginVC.swift */,
+				1F94FCA21C4BA0C300571108 /* ScreenOneCell.swift */,
+				1F94FCA41C4BACF500571108 /* SignUpVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -279,12 +288,15 @@
 				1FC1BD701C490C5F008CDA1D /* MapAnnotation.swift in Sources */,
 				1F016FA21C4AA57900C297FB /* ToolbarNextPreviousVC.swift in Sources */,
 				1FC1BD721C490C88008CDA1D /* LocationManager.swift in Sources */,
+				1F94FCA31C4BA0C300571108 /* ScreenOneCell.swift in Sources */,
 				1F412EE31C4256BB00BD2EF7 /* ScreenOne.swift in Sources */,
 				1F2FC0DE1C42E97600385485 /* UIView+FirstResponder.swift in Sources */,
 				1F412EE11C42557800BD2EF7 /* AppConstant.swift in Sources */,
 				1F8A5F1B1C441252009B5D3C /* Validation.swift in Sources */,
+				1F94FCA71C4BAFEC00571108 /* BaseVC.swift in Sources */,
 				1FC1BD6C1C48FC10008CDA1D /* MapVC.swift in Sources */,
 				1F9996601C457C78001DB894 /* SQLiteManager.m in Sources */,
+				1F94FCA51C4BACF500571108 /* SignUpVC.swift in Sources */,
 				1F412EDE1C42554B00BD2EF7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

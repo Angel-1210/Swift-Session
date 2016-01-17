@@ -35,8 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        let loginVC = storyBoard .instantiateViewControllerWithIdentifier("LoginVC") as! LoginVC
-        window?.rootViewController = loginVC;
+        let loginVCNavigation = storyBoard .instantiateViewControllerWithIdentifier("LoginVCNavigation") as! UINavigationController
+        window?.rootViewController = loginVCNavigation;
     }
     
     //------------------------------------------------------

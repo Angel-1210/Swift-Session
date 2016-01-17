@@ -6,6 +6,7 @@
 //
 
 #import "SQLiteManager.h"
+#import <UIKit/UIKit.h>
 
 @implementation SQLiteManager
 @synthesize databasePath;
@@ -84,23 +85,41 @@ static SQLiteManager * sharedSQLiteManager = nil;
     
     sqlite3 *database;
 	NSMutableArray *dataReturn = [[NSMutableArray alloc] init];
+    
     if(sqlite3_open([self.databasePath UTF8String], &database) == SQLITE_OK) {
         const char *sqlStatement = (const char*)[sql UTF8String];
         sqlite3_stmt *compiledStatement;
+    
         if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
             NSDictionary *dictionary = [self indexByColumnName:compiledStatement];
+            
             while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
+                
 				NSMutableDictionary * row = [[NSMutableDictionary alloc] init];
+                
 				for (NSString *field in dictionary) {
 					char * str = (char *)sqlite3_column_text(compiledStatement, [[dictionary objectForKey:field] intValue]);
 					if (!str){
 						str=" ";
 					}
 					NSString * value = [NSString stringWithUTF8String:str];
-					[row setObject:value forKey:field];
+                    
+                    if (value == nil) {
+                        
+                        int len = sqlite3_column_bytes(compiledStatement, [[dictionary objectForKey:field] intValue]);
+                        NSData *imgData = [[NSData alloc] initWithBytes: sqlite3_column_blob(compiledStatement, [[dictionary objectForKey:field] intValue]) length: len];
+                        
+                        UIImage *img = [[UIImage alloc] initWithData:imgData];
+                        if (img) {
+                            [row setObject:img forKey:field];
+                        }
+                        
+                    } else {
+                     
+                        [row setObject:value forKey:field];
+                    }
 				}
 				[dataReturn addObject:row];
-				
             }
         }
 		else {
@@ -220,13 +239,25 @@ static SQLiteManager * sharedSQLiteManager = nil;
         sqlite3_stmt *compiledStatement;
         if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
 			int index = 1;
-			for (NSString * value in values) {
-				if( [[NSScanner scannerWithString:(NSString *)value] scanFloat:NULL] ){
+
+            
+            for (id value in values) {
+                
+                if ([value isKindOfClass:[NSString class]]) {
+                    
                     sqlite3_bind_text(compiledStatement, index, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
-				}
-                else {
-					sqlite3_bind_text(compiledStatement, index, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
-				}
+                    
+                } else if ([value isKindOfClass:[UIImage class]]) {
+                    
+                    UIImage *image = value;
+                    
+                    NSData *imageData = [NSData dataWithData: UIImagePNGRepresentation(image)];
+                    sqlite3_bind_blob(compiledStatement, index, [imageData bytes], (int)[imageData length], SQLITE_TRANSIENT);
+                } else {
+                    
+                    sqlite3_bind_text(compiledStatement, index, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+                }
+                
 				index++;
 			}
             if(SQLITE_DONE != sqlite3_step(compiledStatement)) {

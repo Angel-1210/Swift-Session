@@ -16,8 +16,9 @@ protocol ScreenTwoDelegate {
 }
 
 var constantkeyTextField = "constantkeyTextField"
+var constantkeyImagePicker = "constantkeyImagePicker"
 
-class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, ToolbarNextPreviousDelegate {
+class ScreenTwo : BaseVC, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, ToolbarNextPreviousDelegate {
     
     var userType : UserMode!
     var delegateScreenTwo : ScreenTwoDelegate?
@@ -134,25 +135,62 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         dictValuesToAdd.setObject(strBornOn!, forKey: kBornOn)
         dictValuesToAdd.setObject(strJoinAt!, forKey: kJoiningAt)
         dictValuesToAdd.setObject(strReleventExp!, forKey: kReleventExp)
+        dictValuesToAdd.setObject(self.imgProfile.image!, forKey: kProfileImage)
+        dictValuesToAdd.setObject(self.imgCoverImage.image!, forKey: kCoverImage)
         
         self.delegateScreenTwo?.screenTwoValues(dictValuesToAdd);
         
         self.navigationController!.popViewControllerAnimated(true);
     }
-    
+
     //------------------------------------------------------
     
-    func DisplayAlertWithTitle( title : String, message : String) {
-    
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    func showOptionsForImagePicker(sender : UIImageView) {
         
-        let alertActionOk = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        self.imagePickerController = UIImagePickerController()
+        self.imagePickerController.delegate = self;
         
-        alertController .addAction(alertActionOk)
+        objc_setAssociatedObject(self.imagePickerController, &constantkeyImagePicker, sender, .OBJC_ASSOCIATION_ASSIGN)
         
-        self .presentViewController(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Albums", message: "Pick or Capture Image", preferredStyle: .ActionSheet)
+        
+        let actionCamera = UIAlertAction(title: "Camera", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                
+                self.imagePickerController.sourceType = .Camera
+                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
+                }
+                
+            } else {
+                print("Please attached Camera")
+            }
+        }
+        
+        let actionGallery = UIAlertAction(title: "Gallery", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+                
+                self.imagePickerController.sourceType = .PhotoLibrary
+                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
+                }
+            } else {
+                print("Having problem to load Gallery")
+            }
+        }
+        
+        let actionCancel = UIAlertAction(title: "Cancel", style: .Destructive) { ( actionCamera : UIAlertAction) -> Void in
+            
+        }
+        
+        alertController .addAction(actionCamera)
+        alertController .addAction(actionGallery)
+        alertController.addAction(actionCancel)
+        
+        self .presentViewController(alertController, animated: true) { () -> Void in
+        }
     }
-
+    
     //------------------------------------------------------
     
     func configureValues() {
@@ -163,6 +201,34 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         self.txtBornOn.text = self.dictValues?.objectForKey(kBornOn) as? String
         self.txtJoinAt.text = self.dictValues?.objectForKey(kJoiningAt) as? String
         self.txtReleventExp.text = self.dictValues?.objectForKey(kReleventExp) as? String
+        
+        self.imgProfile.image = self.dictValues?.objectForKey(kProfileImage) as? UIImage
+        self.imgCoverImage.image = self.dictValues?.objectForKey(kCoverImage) as? UIImage
+    }
+    
+    //------------------------------------------------------
+    
+    //MARK: Action Methods
+    
+    //------------------------------------------------------
+    
+    @IBAction func editCoverTapped(sender: UIButton) {
+        
+        self .showOptionsForImagePicker(self.imgCoverImage)
+    }
+    
+    //------------------------------------------------------
+    
+    @IBAction func editProfileTapped(sender: UIButton) {
+        self .showOptionsForImagePicker(self.imgProfile)
+    }
+    
+    //------------------------------------------------------
+    
+    @IBAction func locationIconTapped( sender : UITapGestureRecognizer) {
+        
+        let map = self.storyboard?.instantiateViewControllerWithIdentifier("MapVC") as! MapVC
+        self.navigationController?.pushViewController(map, animated: true)
     }
     
     //-----------------------------------------------------
@@ -231,67 +297,14 @@ class ScreenTwo : UIViewController, UITextFieldDelegate, UIImagePickerController
         self.scrollView .endEditing(true);
     }
     
-    //------------------------------------------------------
-    
-    @IBAction func editProfileTapped(sender: AnyObject) {
-        
-        self.imagePickerController = UIImagePickerController()
-        self.imagePickerController.delegate = self;
-        
-        let alertController = UIAlertController(title: "Albums", message: "Pick or Capture Image", preferredStyle: .ActionSheet)
-        
-        let actionCamera = UIAlertAction(title: "Camera", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
-            
-            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-                
-                self.imagePickerController.sourceType = .Camera
-                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
-                }
-                
-            } else {
-                print("Please attached Camera")
-            }
-        }
-        
-        let actionGallery = UIAlertAction(title: "Gallery", style: .Default) { ( actionCamera : UIAlertAction) -> Void in
-            
-            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-                
-                self.imagePickerController.sourceType = .PhotoLibrary
-                self.presentViewController(self.imagePickerController, animated: true) { () -> Void in
-                }
-            } else {
-                print("Having problem to load Gallery")
-            }
-        }
-        
-        let actionCancel = UIAlertAction(title: "Cancel", style: .Destructive) { ( actionCamera : UIAlertAction) -> Void in
-            
-        }
-        
-        alertController .addAction(actionCamera)
-        alertController .addAction(actionGallery)
-        alertController.addAction(actionCancel)
-        
-        self .presentViewController(alertController, animated: true) { () -> Void in
-        }
-    }
-   
-    //------------------------------------------------------
-    
-    @IBAction func locationIconTapped( sender : UITapGestureRecognizer) {
-       
-        let map = self.storyboard?.instantiateViewControllerWithIdentifier("MapVC") as! MapVC
-        self.navigationController?.pushViewController(map, animated: true)
-    }
-    
     //MARK: UIImagePickerControllerDelegate
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        print(info);
+        
+        let imageView = objc_getAssociatedObject(self.imagePickerController, &constantkeyImagePicker) as! UIImageView
         
         let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        self.imgCoverImage.image = originalImage
+        imageView.image = originalImage
         self .dismissViewControllerAnimated(true) { () -> Void in
         }
     }
