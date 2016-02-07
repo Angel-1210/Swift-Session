@@ -72,6 +72,25 @@ class ScreenOne : UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.navigationController!.pushViewController(destinationVC, animated: true)
     }
     
+    //------------------------------------------------------
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+
+    //------------------------------------------------------
+    
+    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        
+    }
+    
+    //------------------------------------------------------
+    
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    
+        return ["A", "B"] as [String]
+    }
+    
     //MAKR: ScreenTwoDelegate 
     
     func screenTwoValues( values : NSDictionary ) {
